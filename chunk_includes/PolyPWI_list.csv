@@ -1,0 +1,5 @@
+Group,order,Item,ItemInfo,DistWord,DistWordSound,DistWordSoundGit,TargetPic,ShortPic,Xdim,Ydim
+1,1,1,stuff,APPLE,apple.mp3,https://github.com/lmcl-umd/PolyPWI/blob/main/PolyPWISounds/apple.mp3?raw=true,https://github.com/lmcl-umd/PolyPWI/blob/main/PolyPWIPics/acorns.png?raw=true,acorns.png,400,400
+1,2,2,stuff,BANANA,banana.mp3,https://github.com/lmcl-umd/PolyPWI/blob/main/PolyPWISounds/banana.mp3?raw=true,https://github.com/lmcl-umd/PolyPWI/blob/main/PolyPWIPics/angel.png?raw=true,angel.png,400,400
+1,3,3,stuff,CAT,cat.mp3,https://github.com/lmcl-umd/PolyPWI/blob/main/PolyPWISounds/cat.mp3?raw=true,https://github.com/lmcl-umd/PolyPWI/blob/main/PolyPWIPics/atm.png?raw=true,atm.png,400,400
+1,4,4,stuff,DOG,dog.mp3,https://github.com/lmcl-umd/PolyPWI/blob/main/PolyPWISounds/dog.mp3?raw=true,https://github.com/lmcl-umd/PolyPWI/blob/main/PolyPWIPics/tree.png?raw=true,tree.png,400,400
