@@ -1,12 +1,12 @@
-PennController.Sequence("consent","headphonesInstr","headphoneCheck","passed","instr","instr2","init","test_recording","PWITask","upload","send","debrief","exit" );
+PennController.Sequence("consent","headphonesInstr","headphoneCheck","passed","instr","instr2","init","test_recording","instr3","PWITask","upload","send","debrief","exit" );
 //PennController.DebugOff();
 PennController.ResetPrefix(null);
 PennController.SendResults( "send" );
 PennController.UploadRecordings("upload");
 
 //TODOs:
-//fix bit where it asks for recording permission
-//pic name training block (Cassie)
+//fix bit where it asks for recording permission (maybe fixed?)
+//add pic name training block (Cassie)
 //add catch trials?
 //add practice block of trials?
 //fix sona credit link at end
@@ -14,7 +14,7 @@ PennController.UploadRecordings("upload");
 jQuery.prototype.on = function(...args) { return jQuery.prototype.bind.apply(this, args); }
 jQuery.prototype.prop = function(...args) { return jQuery.prototype.attr.apply(this, args); }
 
-InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings. You will be notified whenever you are being recorded by a label at the top of the page. <br/> <br/> For this to work, please <strong>grant this page access to your microphone</strong> and then <strong>consent to being recorded by clicking on the text below</strong>.")
+InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings. You will be notified whenever you are being recorded by a label at the top of the page. <br/> <br/> For this to work, please <strong>grant this page access to your microphone</strong> and then <strong>consent to being recorded by clicking on the text below:</strong>.")
     .label("init");
 
 //attempt to make the consent for recording more clear
@@ -22,14 +22,14 @@ InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIb
 let replaceConsentMic = ()=>{
         let consentLink = $(".PennController-PennController a.Message-continue-link");
         if (consentLink.length > 0 && consentLink[0].innerHTML.match(/^By clicking this link I understand that I grant this experiment's script access to my recording device/))
-            consentLink.html("By clicking <strong>this text</strong> I understand that I grant this experiment's script access to my microphone");
+            consentLink.html("By <strong>clicking this text</strong> I understand that I grant this experiment's script access to my microphone");
         else
             window.requestAnimationFrame( replaceConsentMic );
 };
 window.requestAnimationFrame( replaceConsentMic );
 
 PennController("test_recording" , 
-
+//NOTE: could probably ditch the volume test b/c of the preceeding headphone check.
     defaultText
         .print()
     ,
@@ -41,15 +41,15 @@ PennController("test_recording" ,
         .print()
         .wait()
     ,
-    newText("Play this as many times as you need<br/>")
+    newText("<br/>")
     ,
     newButton("button", "Continue")
         .print()
         .wait()
     ,
-    newText("<p>Now let's make sure the audio recording is working. Please press the button below, then say <strong>I sure hope this recording works properly!</strong>. </p>")
+    newText("<p>Now let's check if the audio recording is working. Please press the button below, then say something like <strong>I sure hope this recording works properly!</strong>. </p>")
     ,
-    newButton("button", "Start Sample Recording")
+    newButton("button", "Start Test Recording")
         .print()
         .wait()
     ,
@@ -67,7 +67,7 @@ PennController("test_recording" ,
         .play()
         .wait("playback")
     ,
-    newText("<p>Did you hear your recording okay? If so, press the button below when you are ready to begin. (OR FOR A SET OF PRACTICE TRIALS?)</p>")
+    newText("<p>Did you hear your recording okay? If so, press the button below when you are ready to begin. <br/> <br/> If not, please make sure you're using Chrome or Firefox, reload the page, and be sure to grant access to your microphone.</p>")
     ,
     newText("<br/>")
     ,
@@ -312,7 +312,7 @@ PennController( "instr2" ,
         ,
         newText("<p>You will only have a limited amount of time to name each picture before it is quickly replaced by the next picture.</p>")
         ,
-        newText("<p>Just before each picture appears, you will hear a spoken word through your headphones. This word will always be different than the picture name, so you should try to ignore the spoken word and just name the picture as quickly as you can.</p>")
+        newText("<p>Just before each picture appears, you will hear a spoken word through your headphones. This word will always be different than the picture name, so you should try to <strong>ignore the word you hear </strong>and just name the picture as quickly as you can.</p>")
         ,
         newText("<br/>")
         ,
@@ -330,42 +330,33 @@ PennController( "instr2" ,
             .wait()
 );
 
-/*
 PennController( "instr3" ,
-        
         defaultText
             .print()
         ,
-        
         newText("<p><strong>Instructions - Part 3</strong></p>")
         ,
-        
+        newText("<br/>")
+        ,
+        newText("<p>Remember, your task in this experiment is simply to speak the name of each picture as soon as it appears.</p>")
+        ,
+        newText("<p>You'll hear words over the headphones too. They might trip you up a little, but don't worry - just try to name the pictures as quickly and accurately as you can.</p>")
+        ,
+        newText("<br/>")
+        ,
+        newText("<p>This will probably only take 5-10 minutes to complete. Thanks in advance for helping with our research!</p>")
+        ,
+        newText("<p>Press the button below when you are ready to begin.</p>")
+        ,
         newText("<br/>")
         ,
         newText("<br/>")
         ,
-
-        newText("<p>Before we begin, please make sure your volume is on and turned up to a comfortable level. Use the audio sample below to test your volume now.</p>")
-        ,
-        newAudio("testBeats", "https://github.com/lmcl-umd/ImageryFiles/blob/master/PitchesWav/C5.wav?raw=true")
-            .print()
-            .wait()
-        ,
-        newText("<br/>")
-        ,
-        newText("<p>Press the button below when you are ready to begin. (OR FOR A SET OF PRACTICE TRIALS?)</p>")
-        ,
-        
-        newText("<br/>")
-        ,
-        newText("<br/>")
-        ,
-        
-        newButton("button", "Continue")
+        newButton("button", "Start the experiment")
             .print()
             .wait()
 );
-*/
+
 // Do we need a practice block? 
 
 PennController.Template( "PolyPWI_list.csv" ,
