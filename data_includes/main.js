@@ -1,4 +1,4 @@
-PennController.Sequence("consent","headphonesInstr","headphoneCheck","passed","instr","instr2","init","instr3","PWITask","upload", "send" ,"debrief", "exit" );
+PennController.Sequence("consent","headphonesInstr","headphoneCheck","passed","instr","instr2","init","test_recording","PWITask","upload", "send" ,"debrief", "exit" );
 //PennController.DebugOff();
 PennController.ResetPrefix(null);
 PennController.SendResults( "send" );
@@ -16,6 +16,56 @@ jQuery.prototype.prop = function(...args) { return jQuery.prototype.attr.apply(t
 
 InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings.<strong> Once you grant it access to your recording device, you will be notified of whether you are being recorded by a label at the top of the page</strong>")
     .label("init");
+
+PennController("test_recording" , 
+
+    defaultText
+        .print()
+    ,
+    newText("<p>Before we begin, please make sure your volume is on and turned up to a comfortable level. Use the audio sample below to test your volume now.</p>")
+    ,
+    newText("<br/>")
+    ,
+    newAudio("testBeats", "https://github.com/lmcl-umd/ImageryFiles/blob/master/PitchesWav/C5.wav?raw=true")
+        .print()
+        .wait()
+    ,
+    newText("<br/>")
+    ,
+    newButton("button", "Continue")
+        .print()
+        .wait()
+    ,
+    newText("<p>Now let's make sure the audio recording is working. Please press the button below, then say something like <strong>I sure hope this recording works properly!</strong>. </p>")
+    ,
+    newButton("button", "Start Sample Recording")
+        .print()
+        .wait()
+    ,
+    newMediaRecorder("test","audio")
+        .record()
+    ,
+    newTimer("recording", 4000)
+        .start()
+        .wait()
+    ,
+    getMediaRecorder("test")
+        .stop()
+        .print()
+        .disable()
+        .play()
+        .wait("playback")
+    ,
+    newText("<p>Did you hear your recording okay? If so, press the button below when you are ready to begin. (OR FOR A SET OF PRACTICE TRIALS?)</p>")
+    ,
+    newText("<br/>")
+    ,
+    newText("<br/>")
+    ,
+    newButton("button", "Continue")
+        .print()
+        .wait()
+);
 
 PennController( "consent" ,
 
@@ -273,16 +323,13 @@ PennController( "instr2" ,
         ,
         newText("<p>Press the button below to continue.</p>")
         ,
-        newText("<br/>")
-        ,
-        newText("<br/>")
-        ,
         
         newButton("button", "Continue")
             .print()
             .wait()
 );
 
+/*
 PennController( "instr3" ,
         
         defaultText
@@ -317,7 +364,7 @@ PennController( "instr3" ,
             .print()
             .wait()
 );
-
+*/
 // Do we need a practice block? 
 
 PennController.Template( "PolyPWI_list.csv" ,
