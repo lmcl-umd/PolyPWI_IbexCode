@@ -137,7 +137,7 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
     // render boilerplate instruction text
     $('<div/>', {
       class: 'hc-instruction',
-      html: 'When you hit <b>Play</b>, you will hear three sounds separated by silences.'
+      html: 'There are six trials in this task. <br/> For each trial, press <b>Play</b> to hear three sounds separated by silences.'
     }).appendTo($('#hc-container'));
     $('<div/>', {
       class: 'hc-instruction',
