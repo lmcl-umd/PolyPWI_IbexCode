@@ -5,17 +5,16 @@ PennController.SendResults( "send" );
 PennController.UploadRecordings("upload");
 
 //TODOs:
+//fix bit where it asks for recording permission
 //pic name training block (Cassie)
-//create real lists and upload real items to github
 //add catch trials?
 //add practice block of trials?
-//debriefing
 //fix sona credit link at end
 
 jQuery.prototype.on = function(...args) { return jQuery.prototype.bind.apply(this, args); }
 jQuery.prototype.prop = function(...args) { return jQuery.prototype.attr.apply(this, args); }
 
-InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings. <strong>Once you grant it access to your recording device, you will be notified of whether you are being recorded by a label at the top of the page</strong>")
+InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings.<strong> Once you grant it access to your recording device, you will be notified of whether you are being recorded by a label at the top of the page</strong>")
     .label("init");
 
 PennController( "consent" ,
@@ -446,9 +445,13 @@ PennController.Template( "PolyPWI_list.csv" ,
     .log("ParticipantID", PennController.GetURLParameter("id") )
     .log("List", variable.Group)
     .log("Item", variable.Item)
+    .log("PicName", variable.PictureWord)
+    .log("PicNameSense", variable.WordSense)
     .log("Distractor", variable.DistWord)
-    .log("TargetPic", variable.ShortPic)
-    .log("ItemInfo", variable.ItemInfo)
+    .log("Condition", variable.Condition)
+    .log("Sense1_2", variable.eq_weight_sense1_sense2)
+    .log("SenseX_dX", variable.eq_weight_senseX_dX)
+    .log("SenseX_dY", variable.eq_weight_senseX_dY)
 );
 
 
@@ -457,17 +460,17 @@ PennController( "debrief" ,
             .print()
         ,
         
-        newText("<p><strong>Thank you for participating!</strong></p>")
+        newText("<p><strong>Thank you for participating in our study!</strong></p>")
         ,
         
         newText("<br/>")
         ,
 
-        newText("<p>This experiment is investigating... stuff.</p>")
+        newText("<p>The aim of this study was to examine how words with multiple meanings are represented in the mind. One possibility is that each separate meaning of a word has its own discrete representation. For instance, for the word <strong>paper,</strong> it is possible that the <i>printer paper</i> meaning is represented separately from the <i>term paper</i> meaning. But another possibility is that these kinds of word meanings are represented in a more graded or continuous manner. By examining how distractor words affect people’s ability to process these kinds of word meanings, we can better understand whether these kinds of word meanings are represented in a more discrete or continuous manner.</p>")
         ,
-        newText("<p>Of course, we don’t know the results of this experiment yet as we are still collecting data. However, if <br/>you still have any questions about this experiment, please feel free to contact Dr. Slevc at slevc@umd.edu.</p>")
+        newText("<p>Of course, we don’t know the results of this experiment yet as we are still collecting data. However, if you still have any questions about this experiment, please feel free to contact Dr. Slevc at slevc@umd.edu.</p>")
         ,
-        newText("<p>Finally, please don’t share any information about the experiment with other people who <br/>might participate, just in case knowing the goal of the experiment could bias peoples’ responses in some way.</p>")
+        newText("<p>Finally, please don’t share any information about the experiment with other people who might participate, just in case knowing the goal of the experiment could bias peoples’ responses in some way.</p>")
         ,
 //        newText('<a href="https://umpsychology.sona-systems.com/webstudy_credit.aspx?experiment_id=1640&credit_token=e20ddf267343402cb3a5fc8a2950eb8f&survey_code='+GetURLParameter('id')+'" rel="nofollow">Click here to confirm participation on SONA</a>.')
         newText('<a href="https://umpsychology.sona-systems.com/" rel="nofollow">Click here to confirm participation on SONA</a>.')
