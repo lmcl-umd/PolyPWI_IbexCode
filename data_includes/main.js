@@ -1,4 +1,4 @@
-PennController.Sequence("consent","headphonesInstr","headphoneCheck","passed","instr","instr2","init","test_recording","PWITask","upload", "send" ,"debrief", "exit" );
+PennController.Sequence("consent","headphonesInstr","headphoneCheck","passed","instr","instr2","init","test_recording","PWITask","upload","send","debrief","exit" );
 //PennController.DebugOff();
 PennController.ResetPrefix(null);
 PennController.SendResults( "send" );
@@ -14,8 +14,19 @@ PennController.UploadRecordings("upload");
 jQuery.prototype.on = function(...args) { return jQuery.prototype.bind.apply(this, args); }
 jQuery.prototype.prop = function(...args) { return jQuery.prototype.attr.apply(this, args); }
 
-InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings.<strong> Once you grant it access to your recording device, you will be notified of whether you are being recorded by a label at the top of the page</strong>")
+InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings. You will be notified whenever you are being recorded by a label at the top of the page. <br/> <br/> For this to work, please <strong>grant this page access to your microphone</strong> and then <strong>consent to being recorded by clicking on the text below</strong>.")
     .label("init");
+
+//attempt to make the consent for recording more clear
+//from https://www.pcibex.net/forums/topic/voicerecorder-block-incomplete-recording-authorization-page/#post-4988
+let replaceConsentMic = ()=>{
+        let consentLink = $(".PennController-PennController a.Message-continue-link");
+        if (consentLink.length > 0 && consentLink[0].innerHTML.match(/^By clicking this link I understand that I grant this experiment's script access to my recording device/))
+            consentLink.html("By clicking <strong>this text</strong> I understand that I grant this experiment's script access to my microphone");
+        else
+            window.requestAnimationFrame( replaceConsentMic );
+};
+window.requestAnimationFrame( replaceConsentMic );
 
 PennController("test_recording" , 
 
@@ -30,13 +41,13 @@ PennController("test_recording" ,
         .print()
         .wait()
     ,
-    newText("<br/>")
+    newText("Play this as many times as you need<br/>")
     ,
     newButton("button", "Continue")
         .print()
         .wait()
     ,
-    newText("<p>Now let's make sure the audio recording is working. Please press the button below, then say something like <strong>I sure hope this recording works properly!</strong>. </p>")
+    newText("<p>Now let's make sure the audio recording is working. Please press the button below, then say <strong>I sure hope this recording works properly!</strong>. </p>")
     ,
     newButton("button", "Start Sample Recording")
         .print()
@@ -45,7 +56,7 @@ PennController("test_recording" ,
     newMediaRecorder("test","audio")
         .record()
     ,
-    newTimer("recording", 4000)
+    newTimer("recording", 2500)
         .start()
         .wait()
     ,
@@ -264,26 +275,20 @@ PennController( "instr" ,
         
         newText("<p><strong>Instructions - Part 1</strong></p>")
         ,
-        
         newText("<br/>")
         ,
-        newText("<br/>")
-        ,
-        
         newText("<p>In this experiment, your main task will be to say the name of pictures that appear on the screen.</p>")
         ,
         newText("<p>To make sure you know what these pictures are intended to be, we will now show you those pictures along with their one-word name. After you view all the pictures and their names, we will 'quiz' you on the names. (This shouldn't be very hard.)</p>")
         ,
         newText("<p>Press the button below to start viewing the pictures and names, one-by-one. Each picture/name will stay on the screen for about a second, then will be replaced with another picture/name.</p>")
         ,
-        
         newText("<br/>")
         ,
         newText("<p>INSERT PIC TRAINING BIT AROUND HERE SOMEWHERE.</p>")
         ,
         newText("<br/>")
         ,
-        
         newButton("button", "Continue")
             .print()
             .wait()
@@ -301,12 +306,8 @@ PennController( "instr2" ,
         
         newText("<p><strong>Instructions - Part 2</strong></p>")
         ,
-        
         newText("<br/>")
         ,
-        newText("<br/>")
-        ,
-        
         newText("<p>Now that you know the names of the pictures, your main task for the rest of the experiment is to speak the name of each object when it appears. Please speak at a normal volume and name each picture as quickly as you can.</p>")
         ,
         newText("<p>You will only have a limited amount of time to name each picture before it is quickly replaced by the next picture.</p>")
