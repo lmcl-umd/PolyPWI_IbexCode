@@ -1,4 +1,4 @@
-PennController.Sequence("consent","headphonesInstr","headphoneCheck","passed","instr","instr2","init","test_recording","instr3","PWITask","upload","send","debrief","exit" );
+PennController.Sequence("consent","welcome","headphonesInstr","headphoneCheck","passed","test_recording1","init","test_recording2","instr","PicTraining","instr2","PicTesting","instr3","PWITask","upload","send","debrief","exit" );
 //PennController.DebugOff();
 PennController.ResetPrefix(null);
 PennController.SendResults( "send" );
@@ -6,10 +6,39 @@ PennController.UploadRecordings("upload");
 
 //TODOs:
 //fix bit where it asks for recording permission (maybe fixed?)
-//add pic name training block (Cassie)
+//check if pic-name training is using same list as main task
+//check 
 //add catch trials?
 //add practice block of trials?
 //fix sona credit link at end
+
+PennController("welcome",
+        defaultText
+            .print()
+        ,
+        
+        newText("<p><strong>Welcome to the experiment!</strong></p>")
+        ,
+        newText("<p>Before we get going, let's check a few things to make sure this experiment will work properly. </p>")
+        ,
+        newText("<li>This experiment works best on <i>Chrome </i>or <i>Firefox </i>browsers. If you aren't using Chrome or Firefox, it most likely won't work. </li>")
+        ,
+        newText("<br/>")
+        ,
+        newText("<li>This experiment works best in a quiet room without lots of distractions. We can't tell where you are, of course, but we would really appreciate it if you could try to minimize distractions during this experiment! </li>")
+        ,
+        newText("<br/>")
+        ,
+        newText("<li>This experiment will play sounds through your headphones and use your computer's microphone to make short recordings. We'll test those functions next. </li>")
+        ,
+        newText("<br/>")
+        ,
+        newText("<br/>")
+        ,
+        newButton("button", "Continue")
+            .print()
+            .wait()
+);
 
 jQuery.prototype.on = function(...args) { return jQuery.prototype.bind.apply(this, args); }
 jQuery.prototype.prop = function(...args) { return jQuery.prototype.attr.apply(this, args); }
@@ -22,17 +51,20 @@ InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIb
 let replaceConsentMic = ()=>{
         let consentLink = $(".PennController-PennController a.Message-continue-link");
         if (consentLink.length > 0 && consentLink[0].innerHTML.match(/^By clicking this link I understand that I grant this experiment's script access to my recording device/))
-            consentLink.html("By <strong>clicking this text</strong> I understand that I grant this experiment's script access to my microphone");
+            consentLink.html("By <strong><u>clicking this text </u></strong>I understand that I grant this experiment's script access to my microphone");
         else
             window.requestAnimationFrame( replaceConsentMic );
 };
 window.requestAnimationFrame( replaceConsentMic );
 
-PennController("test_recording" , 
-//NOTE: could probably ditch the volume test b/c of the preceeding headphone check.
+PennController("test_recording1" , 
+//NOTE: could probably ditch the volume test b/c of the headphone check.
     defaultText
         .print()
     ,
+    newText("<p><strong>Audio Recording </strong></p>")
+    ,
+/*
     newText("<p>Before we begin, please make sure your volume is on and turned up to a comfortable level. Use the audio sample below to test your volume now.</p>")
     ,
     newText("<br/>")
@@ -47,7 +79,27 @@ PennController("test_recording" ,
         .print()
         .wait()
     ,
-    newText("<p>Now let's check if the audio recording is working. Please press the button below, then say something like <strong>I sure hope this recording works properly!</strong>. </p>")
+*/
+    newText("<p>Your main task in this experiment will be to speak the name of a bunch of pictures while ignoring words you hear over your headphones. </p>")
+    ,
+    newText("<p>The experiment will make short audio recordings of your spoken responses, which will allow us to measure how quickly you started speaking and the accuracy of your response (this will all be more clear soon). </p>")
+    ,
+    newText("<p><strong>For this to work, you will need to grant the browser access to your microphone.</strong> You will be asked to do this on the next page. Please save this setting for the whole experiment. </p>")
+    ,
+    newText("<br/>")
+    ,
+    newButton("button", "Continue")
+        .print()
+        .wait()
+);
+
+PennController("test_recording2" , 
+    defaultText
+        .print()
+    ,
+    newText("<p><strong>Audio Recording</strong></p>")
+    ,
+    newText("<p>Now let's check if the audio recording is working. Please press the button below, then say something like: <br/><br/> <strong><i>I sure hope this recording works properly! </i></strong> </p>")
     ,
     newButton("button", "Start Test Recording")
         .print()
@@ -67,12 +119,15 @@ PennController("test_recording" ,
         .play()
         .wait("playback")
     ,
-    newText("<p>Did you hear your recording okay? If so, press the button below when you are ready to begin. <br/> <br/> If not, please make sure you're using Chrome or Firefox, reload the page, and be sure to grant access to your microphone.</p>")
+    newText("<p>Did you hear your recording okay? </p>")
+    ,
+    newText("<li>If so, press the button below when you are ready to begin. </li>")
+    ,
+    newText("<li>If not, please make sure you're using Chrome or Firefox, reload the page, and be sure to grant access to your microphone.</li>")
     ,
     newText("<br/>")
     ,
-    newText("<br/>")
-    ,
+
     newButton("button", "Continue")
         .print()
         .wait()
@@ -258,7 +313,7 @@ PennController( "passed" ,
                 .wait()
         )
     ,
-    newText("You will now begin the experiment.<br/><br/>")
+    newText("Next, we'll check if the audio recording is working.<br/><br/>")
         .print()
     ,
      
@@ -279,13 +334,11 @@ PennController( "instr" ,
         ,
         newText("<p>In this experiment, your main task will be to say the name of pictures that appear on the screen.</p>")
         ,
-        newText("<p>To make sure you know what these pictures are intended to be, we will now show you those pictures along with their one-word name. After you view all the pictures and their names, we will 'quiz' you on the names. (This shouldn't be very hard.)</p>")
+        newText("<p>To make sure you know what these pictures are intended to be, we will now show you those pictures along with their one-word name. </p>")
+        ,
+        newText("<p>After you view all the pictures and their names, we will 'quiz' you on the names. (This shouldn't be very hard.) </p>")
         ,
         newText("<p>Press the button below to start viewing the pictures and names, one-by-one. Each picture/name will stay on the screen for about a second, then will be replaced with another picture/name.</p>")
-        ,
-        newText("<br/>")
-        ,
-        newText("<p>INSERT PIC TRAINING BIT AROUND HERE SOMEWHERE.</p>")
         ,
         newText("<br/>")
         ,
@@ -294,9 +347,53 @@ PennController( "instr" ,
             .wait()
 );
 
+// pic training, part 1
+// TEST THIS TO MAKE SURE IT IS USING THE SAME GROUP ASSIGNMENT AS THE MAIN PART OF THE TASK!
 
-// INSERT pic name training stuff here, which Cassie is working on
+PennController.Template( "PolyPWI_praclist.csv" ,
+    variable => PennController( "PicTraining" ,
+    
+        newCanvas("screen", 800,580)
+            .center()
+            .print()
+        ,
 
+        newImage("TargetPic", variable.TargetPic)
+            .size(variable.Xdim,variable.Ydim)
+        ,
+
+        newText("word", variable.PictureWord)
+            .settings.css("font-size", "200%")
+        ,
+
+        getCanvas("screen")
+            .add("center at 50%","middle at 95%", getText("word"))
+            .add("center at 50%","middle at 40%", getImage("TargetPic"))
+            .print()
+        ,
+        
+        newTimer("timer", 1500)
+            .start()
+            .wait()
+        ,
+        
+        getCanvas("screen")
+            .remove(getText("word"))
+            .remove(getImage("TargetPic"))
+        ,
+
+        newTimer("ITI", 500)
+            .start()
+            .wait()
+        
+    )
+    //maybe don't log data for this, but only for the (not yet existing) test part?
+    .log("ParticipantID", PennController.GetURLParameter("id") )
+    .log("List", variable.Group)
+    .log("Item", variable.Item)
+    .log("PicName", variable.PictureWord)
+    .log("PicNameSense", variable.WordSense)
+);
 
 PennController( "instr2" ,
         
@@ -308,43 +405,94 @@ PennController( "instr2" ,
         ,
         newText("<br/>")
         ,
-        newText("<p>Now that you know the names of the pictures, your main task for the rest of the experiment is to speak the name of each object when it appears. Please speak at a normal volume and name each picture as quickly as you can.</p>")
+        newText("<p>Now we'll just check to make sure you remember what all the pictures are intended to be called.</p>")
         ,
-        newText("<p>You will only have a limited amount of time to name each picture before it is quickly replaced by the next picture.</p>")
+        newText("<p>You'll now see those same pictures again, and you should just type their one-word name (the name that you saw a moment ago). </p>")
         ,
-        newText("<p>Just before each picture appears, you will hear a spoken word through your headphones. This word will always be different than the picture name, so you should try to <strong>ignore the word you hear </strong>and just name the picture as quickly as you can.</p>")
+        newText("<p>If you don't type the correct name, you'll see the name we intended. Please try to remember that name for the main task (which we'll get to next). </p>")
         ,
-        newText("<br/>")
-        ,
-        newText("<p>In order to determine the speed and accuracy of your responses, short audio recordings will be made of each naming. These recordings will allow us to determine how quickly you started speaking and whether or not the words you produce correspond to the image.</p>")
-        ,
-        newText("To do this, you will need to grant the browser access to your microphone. Please save this setting for the whole experiment.</p>")
+        newText("<p>Note that we aren't using very sophisticated matching here, so don't worry if the experiment script things you got it wrong because it's misspelled or something. The important thing is that you know what to call it for the main task. </p>")
         ,
         newText("<br/>")
         ,
-        newText("<p>Press the button below to continue.</p>")
-        ,
-        
         newButton("button", "Continue")
             .print()
             .wait()
 );
 
+// Pic name TESTING
+
+PennController.Template( "PolyPWI_praclist.csv" ,
+    variable => PennController( "PicTesting" ,
+    
+        newCanvas("screen", 800,580)
+            .center()
+            .print()
+        ,
+
+        newImage("TargetPic", variable.TargetPic)
+            .size(variable.Xdim,variable.Ydim)
+        ,
+        
+        newText("word", variable.PictureWord)
+            .center()
+            .settings.css("font-size", "150%")
+			.before( newText("nameis","Nope, this should be &nbsp;"))
+			.after( newText("fixit",". &nbsp; Please type the correct word and press <i>Enter</i> to continue."))
+        ,
+
+        newTextInput("resp")
+		,
+
+        newText("cont", "<i>Press ENTER when finished.</i>")
+        ,
+
+        getCanvas("screen")
+            .add("center at 50%","middle at 40%", getImage("TargetPic"))
+            .add("center at 50%","middle at 90%", getTextInput("resp").log("final"))
+            .add("center at 50%","middle at 95%", getText("cont").print())
+            .print()
+        ,
+
+		newKey("Enter")
+			.wait(
+				getTextInput("resp").test.text(RegExp(variable.PictureWord+"|"+variable.PictureWord_lc))
+					.failure(getText("word").print() )
+				)
+		,
+		
+        newTimer("ITI", 500)
+            .start()
+            .wait()
+        ,
+        clear()
+    )
+    .log("ParticipantID", PennController.GetURLParameter("id") )
+);
+
 PennController( "instr3" ,
+        
         defaultText
             .print()
         ,
+        
         newText("<p><strong>Instructions - Part 3</strong></p>")
         ,
         newText("<br/>")
         ,
-        newText("<p>Remember, your task in this experiment is simply to speak the name of each picture as soon as it appears.</p>")
+        newText("<p>Now that you know the names of the pictures, your main task for the rest of the experiment is to speak the name of each object when it appears. <br/> Please speak at a normal volume and name each picture as quickly as you can.</p>")
         ,
-        newText("<p>You'll hear words over the headphones too. They might trip you up a little, but don't worry - just try to name the pictures as quickly and accurately as you can.</p>")
+        newText("<p>You will only have a limited amount of time to name each picture before it is quickly replaced by the next picture.</p>")
+        ,
+        newText("<p>Just before each picture appears, you will hear a spoken word through your headphones. <br/> This word will always be different than the picture name, so you should try to <strong>ignore the word you hear </strong>and just name the picture as quickly as you can.</p>")
         ,
         newText("<br/>")
         ,
-        newText("<p>This will probably only take 5-10 minutes to complete. Thanks in advance for helping with our research!</p>")
+        newText("<p>The words might sometimes trip you up a little, but don't worry - just try to name the pictures as quickly and accurately as you can.</p>")
+        ,
+        newText("<br/>")
+        ,
+        newText("<p>This will probably only take 5-10 minutes, then you'll be finished with the experiment. <br/> Thanks in advance for helping with our research!</p>")
         ,
         newText("<p>Press the button below when you are ready to begin.</p>")
         ,
