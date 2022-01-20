@@ -1,18 +1,18 @@
-PennController.Sequence("consent","welcome","headphonesInstr","headphoneCheck","passed","test_recording1","init","test_recording2","instr","PicTraining","instr2","PicTesting","instr3","PWITask","upload","send","debrief","exit" );
-//PennController.DebugOff();
 PennController.ResetPrefix(null);
+Sequence("consent","welcome","headphonesInstr","headphoneCheck","passed","test_recording1","init","test_recording2","instr", randomize("PicTraining"),"instr2", randomize("PicTesting"),"instr3", randomize("PWITask"),"upload","send","debrief","exit" );
+//PennController.DebugOff();
 PennController.SendResults( "send" );
 PennController.UploadRecordings("upload");
 
 //TODOs:
 //fix bit where it asks for recording permission (maybe fixed?)
-//check if pic-name training is using same list as main task
-//change to random order of pic presentations for training and quiz? (maybe doesn't matter)
+//make sure pic-name training is using same list as main task
 //add second pic-name-quiz block for any pic names Ss got wrong on first quiz?
 //add catch trials?
 //add practice block of trials?
-//check audio recording, data output, etc.
-//fix sona credit link at end
+//check audio recording, data output, etc. 
+//fix sona credit link at end (maybe fixed?)
+//check how long it takes (& update )
 
 PennController("welcome",
         defaultText
@@ -45,7 +45,7 @@ PennController("welcome",
 jQuery.prototype.on = function(...args) { return jQuery.prototype.bind.apply(this, args); }
 jQuery.prototype.prop = function(...args) { return jQuery.prototype.attr.apply(this, args); }
 
-InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings. You will be notified whenever you are being recorded by a label at the top of the page. <br/> <br/> For this to work, please <strong>grant this page access to your microphone</strong> and then <strong>consent to being recorded by clicking on the text below:</strong>.")
+InitiateRecorder( "https://10.204.196.196/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings. You will be notified whenever you are being recorded by a label at the top of the page. <br/> <br/> For this to work, please <strong>grant this page access to your microphone</strong> and then <strong>consent to being recorded by clicking on the text below:</strong>.")
     .label("init");
 
 //attempt to make the consent for recording more clear
@@ -293,7 +293,8 @@ PennController( "headphoneCheck" ,
     
     // This is an invisible button that's clicked in the function above upon success
     newButton("dummy").wait()
-);
+).log( "ParticipantID", PennController.GetURLParameter("id") )
+;
 
 PennController( "passed" ,
 
@@ -322,7 +323,8 @@ PennController( "passed" ,
     newButton("Continue")
         .print()
         .wait()
-);
+).log( "ParticipantID", PennController.GetURLParameter("id") )
+;
 
 PennController( "instr" ,
         
@@ -482,13 +484,11 @@ PennController( "instr3" ,
         ,
         newText("<br/>")
         ,
-        newText("<p>Now that you know the names of the pictures, your main task for the rest of the experiment is to speak the name of each object when it appears. <br/> Please speak at a normal volume and name each picture as quickly as you can.</p>")
+        newText("<p>Now that you know the names of the pictures, your main task for the rest of the experiment is to speak the name of each object when it appears. Please speak at a normal volume and name each picture as quickly as you can.</p>")
         ,
         newText("<p>You will only have a limited amount of time to name each picture before it is quickly replaced by the next picture.</p>")
         ,
-        newText("<p>Just before each picture appears, you will hear a spoken word through your headphones. <br/> This word will always be different than the picture name, so you should try to <strong>ignore the word you hear </strong>and just name the picture as quickly as you can.</p>")
-        ,
-        newText("<br/>")
+        newText("<p><i>Just before each picture appears, you will hear a spoken word through your headphones. </i> This word will always be different than the picture name, so you should try to <strong>ignore the word you hear </strong>and just name the picture as quickly as you can.</p>")
         ,
         newText("<p>The words might sometimes trip you up a little, but don't worry - just try to name the pictures as quickly and accurately as you can.</p>")
         ,
@@ -661,8 +661,7 @@ PennController( "debrief" ,
         ,
         newText("<p>Finally, please don’t share any information about the experiment with other people who might participate, just in case knowing the goal of the experiment could bias peoples’ responses in some way.</p>")
         ,
-//        newText('<a href="https://umpsychology.sona-systems.com/webstudy_credit.aspx?experiment_id=1640&credit_token=e20ddf267343402cb3a5fc8a2950eb8f&survey_code='+GetURLParameter('id')+'" rel="nofollow">Click here to confirm participation on SONA</a>.')
-        newText('<a href="https://umpsychology.sona-systems.com/" rel="nofollow">Click here to confirm participation on SONA</a>.')
+        newText('<a href="https://umpsychology.sona-systems.com/webstudy_credit.aspx?experiment_id=1744&credit_token=a5f5fb1b5e8b492ba1bde031353973b6&survey_code='+GetURLParameter('id')+'" rel="nofollow">Click here to confirm participation on SONA</a>.')
             .print()
             .wait()
 
