@@ -7,9 +7,11 @@ PennController.UploadRecordings("upload");
 //TODOs:
 //fix bit where it asks for recording permission (maybe fixed?)
 //check if pic-name training is using same list as main task
-//check 
+//change to random order of pic presentations for training and quiz? (maybe doesn't matter)
+//add second pic-name-quiz block for any pic names Ss got wrong on first quiz?
 //add catch trials?
 //add practice block of trials?
+//check audio recording, data output, etc.
 //fix sona credit link at end
 
 PennController("welcome",
@@ -21,7 +23,7 @@ PennController("welcome",
         ,
         newText("<p>Before we get going, let's check a few things to make sure this experiment will work properly. </p>")
         ,
-        newText("<li>This experiment works best on <i>Chrome </i>or <i>Firefox </i>browsers. If you aren't using Chrome or Firefox, it most likely won't work. </li>")
+        newText("<li>This experiment works best on <i>Chrome </i>or <i>Firefox </i>browsers. If you aren’t using Chrome or Firefox, please restart the study using one of those browsers. </li>")
         ,
         newText("<br/>")
         ,
@@ -51,7 +53,7 @@ InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIb
 let replaceConsentMic = ()=>{
         let consentLink = $(".PennController-PennController a.Message-continue-link");
         if (consentLink.length > 0 && consentLink[0].innerHTML.match(/^By clicking this link I understand that I grant this experiment's script access to my recording device/))
-            consentLink.html("By <strong><u>clicking this text </u></strong>I understand that I grant this experiment's script access to my microphone");
+            consentLink.html("By <strong><u>clicking this text </u></strong>I understand that I grant this experiment's script access to my microphone.");
         else
             window.requestAnimationFrame( replaceConsentMic );
 };
@@ -409,9 +411,9 @@ PennController( "instr2" ,
         ,
         newText("<p>You'll now see those same pictures again, and you should just type their one-word name (the name that you saw a moment ago). </p>")
         ,
-        newText("<p>If you don't type the correct name, you'll see the name we intended. Please try to remember that name for the main task (which we'll get to next). </p>")
+        newText("<p>If you don't type the correct name, you'll see the name we intended and you'll need to type that in to continue. Please try to remember the name for the main task (which we'll get to next). </p>")
         ,
-        newText("<p>Note that we aren't using very sophisticated matching here, so don't worry if the experiment script things you got it wrong because it's misspelled or something. The important thing is that you know what to call it for the main task. </p>")
+        newText("<p>Note that we aren't using very sophisticated matching here, so don't worry if the experiment script thinks you got it wrong because it's misspelled or something. The important thing is that you know what to call it for the main task. </p>")
         ,
         newText("<br/>")
         ,
