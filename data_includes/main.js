@@ -45,10 +45,11 @@ PennController("welcome",
 jQuery.prototype.on = function(...args) { return jQuery.prototype.bind.apply(this, args); }
 jQuery.prototype.prop = function(...args) { return jQuery.prototype.attr.apply(this, args); }
 
-InitiateRecorder( "https://10.204.196.196/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings. You will be notified whenever you are being recorded by a label at the top of the page. <br/> <br/> For this to work, please <strong>grant this page access to your microphone</strong> and then <strong>consent to being recorded by clicking on the text below:</strong>.")
+//InitiateRecorder( "https://10.204.196.196/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings. You will be notified whenever you are being recorded by a label at the top of the page. <br/> <br/> For this to work, please <strong>grant this page access to your microphone</strong> and then <strong>consent to being recorded by clicking on the text below:</strong>.")
+InitiateRecorder( "https://hjpatt-136.umd.edu/Web_Experiments/Slevc/polypwi/PCIbex.php","This experiment collects audio recordings. You will be notified whenever you are being recorded by a label at the top of the page. <br/> <br/> For this to work, please <strong>grant this page access to your microphone</strong> and then <strong>consent to being recorded by clicking on the text below:</strong>.")
     .label("init");
 
-//attempt to make the consent for recording more clear
+//make the bit about consenting for recording more clear
 //from https://www.pcibex.net/forums/topic/voicerecorder-block-incomplete-recording-authorization-page/#post-4988
 let replaceConsentMic = ()=>{
         let consentLink = $(".PennController-PennController a.Message-continue-link");
@@ -58,6 +59,20 @@ let replaceConsentMic = ()=>{
             window.requestAnimationFrame( replaceConsentMic );
 };
 window.requestAnimationFrame( replaceConsentMic );
+
+/*
+//change recording error message to ask for files to be sent?
+//if so, try something like this from https://github.com/Masato-Nakamura-3/filter_pcibex
+const replaceUploadingErrorMessage = ()=>{
+    const uploadingErrorMessage = $(".PennController-PennController p:nth-child(2)");
+    if (uploadingErrorMessage.length > 0 && uploadingErrorMessage[0].innerHTML.match(/^There was an error uploading the recordings:/))
+        uploadingErrorMessage.html("There was an error uploading the recordings.<br>Please download the recordings from the link below and upload it following the instructions on the AMT webpage.")
+            .siblings(".Message-continue-link").html("Download the recordings");//The text for the link to the recordings
+    else
+        window.requestAnimationFrame( replaceUploadingErrorMessage );
+};
+replaceUploadingErrorMessage();
+*/
 
 PennController("test_recording1" , 
 //NOTE: could probably ditch the volume test b/c of the headphone check.
@@ -101,7 +116,7 @@ PennController("test_recording2" ,
     ,
     newText("<p><strong>Audio Recording</strong></p>")
     ,
-    newText("<p>Now let's check if the audio recording is working. Please press the button below, then say something like: <br/><br/> <strong><i>I sure hope this recording works properly! </i></strong> </p>")
+    newText("<p>Now let's check if the audio recording is working. Please press the button below, then say something like: <br/><br/> <strong><i>I hope the recording works! </i></strong> </p>")
     ,
     newButton("button", "Start Test Recording")
         .print()
@@ -110,7 +125,7 @@ PennController("test_recording2" ,
     newMediaRecorder("test","audio")
         .record()
     ,
-    newTimer("recording", 2500)
+    newTimer("recording", 3500)
         .start()
         .wait()
     ,
@@ -300,7 +315,7 @@ PennController( "passed" ,
 
     getVar("passed").test.is(0)
         .success(
-            newText("Hey! It looks like you are not wearing headphones. <br/> If possible, please put on headphones before continuing.<br/><br/>")   
+            newText("Hey! It seems like you are not wearing headphones. <br/> If possible, please put on headphones before continuing.<br/><br/>")   
                 .print()
             ,
             newTimer("wait", 2000)
@@ -429,7 +444,7 @@ PennController( "instr2" ,
 PennController.Template( "PolyPWI_praclist.csv" ,
     variable => PennController( "PicTesting" ,
     
-        newCanvas("screen", 800,580)
+        newCanvas("screen", 800,580) 
             .center()
             .print()
         ,
@@ -472,6 +487,10 @@ PennController.Template( "PolyPWI_praclist.csv" ,
         clear()
     )
     .log("ParticipantID", PennController.GetURLParameter("id") )
+    .log("List", variable.Group)
+    .log("Item", variable.Item)
+    .log("PicName", variable.PictureWord)
+    .log("PicNameSense", variable.WordSense)
 );
 
 PennController( "instr3" ,
@@ -515,7 +534,7 @@ PennController.Template( "PolyPWI_list.csv" ,
 //        newVar("check",0) // remove if not using occasional are-you-paying-attention Qs
 //        ,
         
-        newCanvas("screen", 800,580)
+        newCanvas("screen", 800,580) // was 800,580
             .center()
             .print()
         ,
@@ -664,9 +683,7 @@ PennController( "debrief" ,
         newText('<a href="https://umpsychology.sona-systems.com/webstudy_credit.aspx?experiment_id=1744&credit_token=a5f5fb1b5e8b492ba1bde031353973b6&survey_code='+GetURLParameter('id')+'" rel="nofollow">Click here to confirm participation on SONA</a>.')
             .print()
             .wait()
-
-);
-
+    )
 
 PennController( "exit" ,
         newText("<p>You may now close your browser window.</p>").print()
