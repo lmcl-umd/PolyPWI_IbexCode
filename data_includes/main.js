@@ -62,11 +62,12 @@ window.requestAnimationFrame( replaceConsentMic );
 
 /*
 //change recording error message to ask for files to be sent?
+
 //if so, try something like this from https://github.com/Masato-Nakamura-3/filter_pcibex
 const replaceUploadingErrorMessage = ()=>{
     const uploadingErrorMessage = $(".PennController-PennController p:nth-child(2)");
     if (uploadingErrorMessage.length > 0 && uploadingErrorMessage[0].innerHTML.match(/^There was an error uploading the recordings:/))
-        uploadingErrorMessage.html("There was an error uploading the recordings.<br>Please download the recordings from the link below and upload it following the instructions on the AMT webpage.")
+        uploadingErrorMessage.html("There was an error uploading the recordings.<br>If possible, please download the recordings from the link below and upload it following the instructions on the AMT webpage.")
             .siblings(".Message-continue-link").html("Download the recordings");//The text for the link to the recordings
     else
         window.requestAnimationFrame( replaceUploadingErrorMessage );
@@ -125,7 +126,7 @@ PennController("test_recording2" ,
     newMediaRecorder("test","audio")
         .record()
     ,
-    newTimer("recording", 3500)
+    newTimer("recording", 2500)
         .start()
         .wait()
     ,
@@ -379,6 +380,7 @@ PennController.Template( "PolyPWI_praclist.csv" ,
 
         newImage("TargetPic", variable.TargetPic)
             .size(variable.Xdim,variable.Ydim)
+            .center()
         ,
 
         newText("word", variable.PictureWord)
@@ -451,6 +453,7 @@ PennController.Template( "PolyPWI_praclist.csv" ,
 
         newImage("TargetPic", variable.TargetPic)
             .size(variable.Xdim,variable.Ydim)
+            .center()
         ,
         
         newText("word", variable.PictureWord)
@@ -534,7 +537,7 @@ PennController.Template( "PolyPWI_list.csv" ,
 //        newVar("check",0) // remove if not using occasional are-you-paying-attention Qs
 //        ,
         
-        newCanvas("screen", 800,580) // was 800,580
+        newCanvas("screen", 800,580) 
             .center()
             .print()
         ,
@@ -554,7 +557,7 @@ PennController.Template( "PolyPWI_list.csv" ,
         getCanvas("screen").remove(getText("cue"))
         ,
 
-        newTimer("pause", 500)
+        newTimer("pause2", 500)
             .start()
             .wait()
         ,
@@ -570,6 +573,7 @@ PennController.Template( "PolyPWI_list.csv" ,
         
         newImage("TargetPic", variable.TargetPic)
             .size(variable.Xdim,variable.Ydim)
+            .center()
         ,
 //        newText("word", variable.DistWord)
 //        ,
