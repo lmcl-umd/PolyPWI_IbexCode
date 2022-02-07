@@ -1,11 +1,11 @@
 PennController.ResetPrefix(null);
 Sequence("consent","welcome","headphonesInstr","headphoneCheck","passed","test_recording1","init","test_recording2","instr", randomize("PicTraining"),"instr2", randomize("PicTesting"),"instr3", randomize("PWITask"),"upload","send","debrief","exit" );
-//PennController.DebugOff();
+PennController.DebugOff();
 PennController.SendResults( "send" );
 PennController.UploadRecordings("upload");
 
 //TODOs:
-//fix bit where it asks for recording permission (maybe fixed?)
+//update consent/assent forms w/ 30-minute versions
 //make sure pic-name training is using same list as main task
 //add second pic-name-quiz block for any pic names Ss got wrong on first quiz?
 //add catch trials?
@@ -388,7 +388,7 @@ PennController.Template( "PolyPWI_praclist.csv" ,
         ,
 
         getCanvas("screen")
-            .add("center at 50%","middle at 95%", getText("word"))
+            .add("center at 50%","middle at 85%", getText("word"))
             .add("center at 50%","middle at 40%", getImage("TargetPic"))
             .print()
         ,
@@ -491,6 +491,7 @@ PennController.Template( "PolyPWI_praclist.csv" ,
     )
     .log("ParticipantID", PennController.GetURLParameter("id") )
     .log("List", variable.Group)
+    .log("ItemNumber", variable.ItemNumber)
     .log("Item", variable.Item)
     .log("PicName", variable.PictureWord)
     .log("PicNameSense", variable.WordSense)
@@ -578,7 +579,7 @@ PennController.Template( "PolyPWI_list.csv" ,
 //        newText("word", variable.DistWord)
 //        ,
 
-        newMediaRecorder(variable.Item+"_"+PennController.GetURLParameter("id"),"audio")
+        newMediaRecorder(variable.ItemNumber+"_"+variable.Condition+"_"+PennController.GetURLParameter("id"),"audio")
             .record()
         ,
         
@@ -593,7 +594,7 @@ PennController.Template( "PolyPWI_list.csv" ,
             .wait()
         ,
         
-        getMediaRecorder(variable.Item+"_"+PennController.GetURLParameter("id"))
+        getMediaRecorder(variable.ItemNumber+"_"+variable.Condition+"_"+PennController.GetURLParameter("id"))
             .stop()
             // .play()
             // .wait("playback")
@@ -656,6 +657,7 @@ PennController.Template( "PolyPWI_list.csv" ,
     )
     .log("ParticipantID", PennController.GetURLParameter("id") )
     .log("List", variable.Group)
+    .log("ItemNumber", variable.ItemNumber)
     .log("Item", variable.Item)
     .log("PicName", variable.PictureWord)
     .log("PicNameSense", variable.WordSense)
