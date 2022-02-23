@@ -5,14 +5,15 @@ PennController.SendResults( "send" );
 PennController.UploadRecordings("upload");
 
 //TODOs:
-//update consent/assent forms w/ 30-minute versions
 //make sure pic-name training is using same list as main task
+//check audio recording, data output, etc. 
+//fix sona credit link at end (maybe fixed?)
+//prereg
+
+//mayyyybe todos:
 //add second pic-name-quiz block for any pic names Ss got wrong on first quiz?
 //add catch trials?
 //add practice block of trials?
-//check audio recording, data output, etc. 
-//fix sona credit link at end (maybe fixed?)
-//check how long it takes (& update )
 
 PennController("welcome",
         defaultText
@@ -370,7 +371,7 @@ PennController( "instr" ,
 // pic training, part 1
 // TEST THIS TO MAKE SURE IT IS USING THE SAME GROUP ASSIGNMENT AS THE MAIN PART OF THE TASK!
 
-PennController.Template( "PolyPWI_praclist.csv" ,
+PennController.Template( "PolyPWI_praclist2.csv" ,
     variable => PennController( "PicTraining" ,
     
         newCanvas("screen", 800,580)
@@ -412,6 +413,7 @@ PennController.Template( "PolyPWI_praclist.csv" ,
     .log("ParticipantID", PennController.GetURLParameter("id") )
     .log("List", variable.Group)
     .log("Item", variable.Item)
+    .log("ItemNumber", variable.ItemNumber)
     .log("PicName", variable.PictureWord)
     .log("PicNameSense", variable.WordSense)
 );
@@ -443,7 +445,7 @@ PennController( "instr2" ,
 
 // Pic name TESTING
 
-PennController.Template( "PolyPWI_praclist.csv" ,
+PennController.Template( "PolyPWI_praclist2.csv" ,
     variable => PennController( "PicTesting" ,
     
         newCanvas("screen", 800,580) 
@@ -458,9 +460,9 @@ PennController.Template( "PolyPWI_praclist.csv" ,
         
         newText("word", variable.PictureWord)
             .center()
-            .settings.css("font-size", "150%")
+            .settings.css("font-weight", "bold")
 			.before( newText("nameis","Nope, this should be &nbsp;"))
-			.after( newText("fixit",". &nbsp; Please type the correct word and press <i>Enter</i> to continue."))
+			.after( newText("fixit",". &nbsp Please type the correct word and press <i>Enter</i> to continue."))
         ,
 
         newTextInput("resp")
@@ -491,8 +493,8 @@ PennController.Template( "PolyPWI_praclist.csv" ,
     )
     .log("ParticipantID", PennController.GetURLParameter("id") )
     .log("List", variable.Group)
-    .log("ItemNumber", variable.ItemNumber)
     .log("Item", variable.Item)
+    .log("ItemNumber", variable.ItemNumber)
     .log("PicName", variable.PictureWord)
     .log("PicNameSense", variable.WordSense)
 );
@@ -532,7 +534,7 @@ PennController( "instr3" ,
 
 // Do we need a practice block? 
 
-PennController.Template( "PolyPWI_list.csv" ,
+PennController.Template( "PolyPWI_list2.csv" ,
     variable => PennController( "PWITask" ,
     
 //        newVar("check",0) // remove if not using occasional are-you-paying-attention Qs
@@ -657,15 +659,12 @@ PennController.Template( "PolyPWI_list.csv" ,
     )
     .log("ParticipantID", PennController.GetURLParameter("id") )
     .log("List", variable.Group)
-    .log("ItemNumber", variable.ItemNumber)
     .log("Item", variable.Item)
+    .log("ItemNumber", variable.ItemNumber)
     .log("PicName", variable.PictureWord)
     .log("PicNameSense", variable.WordSense)
     .log("Distractor", variable.DistWord)
     .log("Condition", variable.Condition)
-    .log("Sense1_2", variable.eq_weight_sense1_sense2)
-    .log("SenseX_dX", variable.eq_weight_senseX_dX)
-    .log("SenseX_dY", variable.eq_weight_senseX_dY)
 );
 
 
