@@ -386,6 +386,7 @@ PennController.Template( "PolyPWI_praclist2.csv" ,
 
         newText("word", variable.PictureWord)
             .settings.css("font-size", "200%")
+            .center()
         ,
 
         getCanvas("screen")
@@ -466,6 +467,7 @@ PennController.Template( "PolyPWI_praclist2.csv" ,
         ,
 
         newTextInput("resp")
+        
 		,
 
         newText("cont", "<i>Press ENTER when finished.</i>")
